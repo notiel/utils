@@ -59,7 +59,7 @@ SMART = True  # use this flag to use smart type matcher (otherwise type is taken
 
 # list of correct types. Use lower case letters and multiple form. 'capacitors' is correct, 'Capacitor' has two mistakes
 correct_types = ['capacitors', 'resistors', 'inductors', 'ic', 'diodes', 'leds', 'connectors', 'installations',
-                 'antennas', 'picturec', 'btnsswitches', 'quartz']
+                 'antennas', 'pictures', 'btnsswitches', 'quartz']
 
 # use this dict to match types with concrete pns. Use capital letters of partnumber, 'MSD3C031V', not 'msd3c031v'
 type_matcher_by_pn = {'MSD3C031V': 'Bidir Zener', 'SY8120': 'IC', 'STM32F411CxU6': 'IC', 'ICN2012': 'IC',
@@ -123,7 +123,10 @@ def get_tolerance(component_type: str) -> str:
     """
     if 'resistor' in component_type.lower():
         return '1%'
-    return '20%'
+    elif 'capacitor' in component_type.lower():
+        return '20%'
+    else:
+        return '-'
 
 
 def get_description(component_type: str, value: str, footprint: str) -> str:
@@ -144,7 +147,7 @@ def get_description(component_type: str, value: str, footprint: str) -> str:
         return template + ' in ' + case + r'case with 1% tolerance'
     if 'inductor' in component_type.lower():
         return template + 'in %s case' % case
-    return template + ' ' + footprint
+    return ''
 
 
 RowN = 1
